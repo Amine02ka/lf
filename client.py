@@ -10,19 +10,19 @@ init(autoreset=True)
 # Get the IP address from the user
 IP = input(f"{Fore.GREEN}Enter the IP address: ")
 
-#if IP == "":
-#	IP = "localhost"
+if IP == "":
+	IP = "localhost"
 
 try:
     # Check if the server is alive
-    response = requests.get(f"http://{IP}:5000", timeout=5)
+    response = requests.get(f"https://{IP}", timeout=5)
 
     if response.status_code != None:
         print(f"{Fore.GREEN}-" * 50)
         print(f"{Fore.GREEN}Server is alive")
 
         # Server is alive, now send the POST request                                                       
-        post_response = requests.post(f"http://{IP}:5000")
+        post_response = requests.post(f"https://{IP}")
 
         if post_response.text:
             # Continue with further processing
@@ -55,14 +55,14 @@ except requests.Timeout:
 
 
 def send_otp(phone_number):
-    url = f'http://{IP}:5000/send_number'
+    url = f'https://{IP}/send_number'
     data = {'number': phone_number}
 
     response = requests.post(url, json=data)
     return response.json()
 
 def verify_otp(phone_number, otp):
-    url = f'http://{IP}:5000/verify_otp'
+    url = f'https://{IP}/verify_otp'
     data = {'number': phone_number, 'otp': otp}
 
     response = requests.post(url, json=data)
